@@ -2,7 +2,7 @@
 using Persistence;
 using Activity = Domain.Activity;
 
-namespace Application
+namespace Application.Activities
 {
     public class Details
     {

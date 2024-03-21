@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Application.Activities;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +23,21 @@ namespace API.Controllers
         public async Task<IActionResult> CreateActivity(Activity activity)
         {
             await Mediator.Send(new Create.Command{Activity= activity});
+            return Ok();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(Guid Id, Activity activity)
+        {
+            activity.Id = Id;
+            await Mediator.Send(new Edit.Command{Activity = activity});
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteActivity(Guid Id)
+        {
+            await Mediator.Send(new Delete.Command { Id = Id});
             return Ok();
         }
     }
