@@ -26,7 +26,7 @@ public class Edit {
 
             _mapper.Map(request.Activity,activity);
 
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
     }
 
