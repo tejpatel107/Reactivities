@@ -1,16 +1,13 @@
 import React, { ChangeEvent, useState } from "react";
 import { Button, Form, FormInput, FormTextArea, Segment } from "semantic-ui-react";
 import { Activity } from "../../../app/models/activity";
+import { useStore } from "../../../app/stores/store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-    activity : Activity | undefined;
-    closeForm : () => void;
-    createOrEdit : (activity : Activity) => void;
-    submitting : boolean;
-}
-
-export default function ActivityForm({activity: selectedActivity, closeForm, createOrEdit, submitting} : Props) {
+function ActivityForm() {
     
+    const {activityStore} = useStore();
+    const {selectedActivity, closeForm, createAnActivity, updateAnActivity, loading} = activityStore;
     const initialState = selectedActivity ?? {
         id: '',
         title: '',
@@ -24,7 +21,7 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
     const [activity, setActivity] = useState<Activity>(initialState);
 
     function handleSubmit () {
-        createOrEdit(activity);
+        activity.id ? updateAnActivity(activity) : createAnActivity(activity);
     }
 
     function handleChangeEvent(event : ChangeEvent<HTMLInputElement | HTMLTextAreaElement> ) {
@@ -34,7 +31,7 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
 
     return (
         <Segment clearing>
-            <Form onSubmit={handleSubmit} autoComplete='off'>
+            <Form onSubmit={handleSubmit} autoComplete='off' >
                 <FormInput placeholder="Title" 
                 name="title" value={activity.title} onChange={handleChangeEvent}/>
                 <FormTextArea placeholder="Description" 
@@ -47,9 +44,11 @@ export default function ActivityForm({activity: selectedActivity, closeForm, cre
                 name="city" value={activity.city} onChange={handleChangeEvent}/>
                 <FormInput placeholder="Venue" 
                 name="venue" value={activity.venue} onChange={handleChangeEvent}/>
-                <Button loading={submitting} floated="right" positive type= 'submit' content='Submit' />
+                <Button loading={loading} floated="right" positive type= 'submit' content='Submit' />
                 <Button onClick={closeForm} floated="right" type= 'button' content='Cancel' />
             </Form>
         </Segment>
     )
 }
+
+export default observer(ActivityForm);
