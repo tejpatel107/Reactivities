@@ -1,7 +1,8 @@
-import React, { SyntheticEvent, useState } from 'react';
-import { Button, Item, Label, Segment } from 'semantic-ui-react';
+import { SyntheticEvent, useState } from 'react';
+import { Button, Item, ItemGroup, Label, Segment } from 'semantic-ui-react';
 import { useStore } from '../../../app/stores/store';
 import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
 
 function ActivityList(){
 
@@ -14,10 +15,10 @@ function ActivityList(){
     }
     return (
         <Segment>
-            <Item.Group divided>
+            <ItemGroup divided>
                 {activitiesByDate.map(activity => (
-                    <Item.Content  key={activity.id}>
-                        <Item.Header as='a'>{activity.title} </Item.Header>
+                    <Item.Content key={activity.id}>
+                        <Item.Header as='h4'>{activity.title} </Item.Header>
                         <Item.Meta>{activity.date}</Item.Meta>
                         <Item.Description>
                             <div>{activity.description}</div>
@@ -25,10 +26,12 @@ function ActivityList(){
                         </Item.Description>
                         <Item.Extra>
                             <Button 
-                                onClick={() => activityStore.selectActivity(activity.id)} 
+                                // onClick={() => activityStore.selectActivity(activity.id)} 
+                                as={Link} to={`/activities/${activity.id}`}
                                 floated="right" 
                                 content="View" 
-                                color="blue" />
+                                color="blue" 
+                                />
                             <Button 
                                 name={activity.id}
                                 loading={loading && target ===  activity.id}
@@ -38,7 +41,7 @@ function ActivityList(){
                         </Item.Extra>
                     </Item.Content>
                 ))}
-            </Item.Group>            
+            </ItemGroup>            
         </Segment>
     )
 }
