@@ -15,7 +15,7 @@ export const routes : RouteObject[] = [
             {path : "activities", element: <ActivityDashboard />},
             {path : "activities/:id", element: <ActivityDetails />},
             {path : "CreateActivity", element: <ActivityForm key="create" />},
-            {path : "EditActivity/:id", element: <ActivityForm key="edit"/>},
+            {path : "ManageActivity/:id", element: <ActivityForm key="edit"/>},
             {path : "errors", element: <TestErrors />},
             {path : "not-found", element: <NotFound />},
             {path : "*", element: <Navigate replace to={"/not-found"}/>},
