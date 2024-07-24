@@ -15,7 +15,7 @@ function ActivityDahsboard() {
         if (activityRegistery.size <= 1) loadActivities();
       }, [loadActivities,activityRegistery.size]);
     
-    if(activityStore.loading) return <LoadingComponent content="Loading app" />; 
+    if(activityStore.loading) return <LoadingComponent content="Loading activities..." />; 
 
     return (
         <Grid>
