@@ -1,9 +1,9 @@
 using System.Net;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Application.Core;
 
-namespace API.Middleware{
+namespace API.Middleware
+{
 
     public class ExceptionMiddleware {
 

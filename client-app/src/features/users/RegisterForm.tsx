@@ -16,9 +16,9 @@ function RegisterForm() {
             onSubmit={(values, { setErrors }) => userStore.register(values).catch((error) => { setErrors({error}) })}
             validationSchema={Yup.object({
                 displayName: Yup.string().required('Please enter a display name'),
-                username: Yup.string().required('Please enter a display name'),
-                email: Yup.string().required('Please enter a display name'),
-                password: Yup.string().required('Please enter a display name'),
+                username: Yup.string().required('Please enter a username'),
+                email: Yup.string().required('Please enter an email'),
+                password: Yup.string().required('Please enter a password'),
             })}
         >
             {({ handleSubmit, isSubmitting, errors, isValid, dirty }) =>

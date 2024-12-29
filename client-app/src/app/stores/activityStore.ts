@@ -3,6 +3,8 @@ import { Activity } from "../models/activity";
 import agent from "../api/agent";
 import {v4 as uuid} from "uuid"; 
 import { format } from "date-fns";
+import { store } from "./store";
+import { Profile } from "../models/Profile";
 
 export default class ActivityStore {
 
@@ -77,6 +79,16 @@ export default class ActivityStore {
     }
 
     private setActivity = (activity: Activity) => {
+        const user = store.userStore.user;
+        if (user) {
+            activity.isGoing = activity.attendees!.some(
+                attendee => attendee.username === user.username
+            )
+            activity.isHost = activity.hostUsername === user.username;
+            activity.host = activity.attendees?.find(
+                attendee => attendee.username === user.username
+            )
+        }
         activity.date = new Date(activity.date!);
         this.activityRegistery.set(activity.id, activity);
 
@@ -136,6 +148,29 @@ export default class ActivityStore {
         } catch (error) {
             console.log(error);
             this.loading = false;
+        }
+    }
+
+    updateAttendence = async () => {
+        const user = store.userStore.user;
+        this.loading = true;
+        try {
+            await agent.Activities.attend(this.selectedActivity!.id);
+            runInAction(() => {
+                if (this.selectedActivity?.isGoing){
+                    this.selectedActivity.attendees = 
+                        this.selectedActivity.attendees?.filter(a => a.username !== user?.username);                        
+                } else {
+                    const attendee = new Profile(user!);
+                    this.selectedActivity?.attendees?.push(attendee);
+                    this.selectedActivity!.isGoing = true;
+                }
+                this.activityRegistery.set(this.selectedActivity!.id, this.selectedActivity!);
+            })
+        } catch (error) {
+            console.log(error);
+        } finally {
+            runInAction(() => this.loading = false);
         }
     }
 }

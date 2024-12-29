@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-
 namespace Persistence
 {
     internal class DataContextFactory : IDesignTimeDbContextFactory<DataContext>

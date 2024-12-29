@@ -9,7 +9,6 @@ import ActivityDetailedHeader from "./ActivityDetailedHeader";
 import ActivityDetailedChat from "./ActivityDetailedChat";
 import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 
-
 function ActivityDetails() {
 
     const {activityStore} = useStore();
@@ -31,26 +30,9 @@ function ActivityDetails() {
                 <ActivityDetailedChat />
             </GridColumn>
             <GridColumn width={6}>
-                <ActivityDetailedSidebar />
+                <ActivityDetailedSidebar activity={activity}/>
             </GridColumn>
         </Grid>
-
-        // <Card fluid>
-        //     <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
-        //     <CardContent>
-        //         <CardHeader>{activity.title}</CardHeader>
-        //         <CardMeta>
-        //             <span className='date'>{activity.date}</span>
-        //         </CardMeta>
-        //         <CardDescription>
-        //             {activity.description}
-        //         </CardDescription>
-        //     </CardContent>
-        //     <CardContent extra>
-        //         <Button as={Link} to={`/EditActivity/${activity.id}`} basic content="Edit" color="blue"/>
-        //         <Button basic content="Cancel" color="grey" as={Link}  to="/activities"/>
-        //     </CardContent>
-        // </Card>
     )
 }
 

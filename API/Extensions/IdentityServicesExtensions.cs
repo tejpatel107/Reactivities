@@ -1,6 +1,8 @@
 using API.Services;
 using Domain;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using System.Text;
@@ -10,6 +12,7 @@ namespace API.Extensions {
     public static class IdentityServicesExtensions 
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config) {
+            
             services.AddIdentityCore<AppUser>(opt => {
                 opt.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<DataContext>();
@@ -24,6 +27,15 @@ namespace API.Extensions {
                     };
                 }
             );
+
+            services.AddAuthorization(opt => 
+            {
+                opt.AddPolicy(
+                "IsActivityHost", policy => {policy.AddRequirements(
+                    new IsHostRequirement());
+                });
+            });
+            services.AddTransient<IAuthorizationHandler,IsHostRequirementHandler>();
             services.AddScoped<TokenServices>();
             return services;
         }
