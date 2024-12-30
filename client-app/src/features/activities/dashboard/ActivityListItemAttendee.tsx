@@ -11,22 +11,12 @@ function ActivityListItemAttendee({ attendees }: Props) {
     return (
 
         <List horizontal>
-            <List.Item >
-                <Image size='mini' circular src='assets/user.png' />
-            </List.Item>
-            <List.Item >
-                <Image size='mini' circular src='assets/user.png' />
-            </List.Item><List.Item >
-                <Image size='mini' circular src='assets/user.png' />
-            </List.Item>
+            {attendees.map(attendee => (
+                    <List.Item key={attendee.username} as={Link} to={`/profiles/${attendee.username}`}>
+                        <Image size='mini' circular src='assets/user.png' />
+                    </List.Item>
+            ))}
         </List>
-        // <List horizontal>
-        //     {attendees.map(attendee => (
-        //             <List.Item key={attendee.username} as={Link} to={`/profiles/${attendee.username}`}>
-        //                 <Image size='mini' circular src='assets/user.png' />
-        //             </List.Item>
-        //     ))}
-        // </List>
     )
 }
 

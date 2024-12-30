@@ -1,15 +1,5 @@
-﻿// the commented settings are not required as per the course (instructor)
-
-{
+﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
-  //"iisSettings": {
-  //  "windowsAuthentication": false,
-  //  "anonymousAuthentication": true,
-  //  "iisExpress": {
-  //    "applicationUrl": "http://localhost:12571",
-  //    "sslPort": 44391
-  //  }
-  //},
   "profiles": {
     "http": {
       "commandName": "Project",
@@ -21,23 +11,5 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
-    //"https": {
-    //  "commandName": "Project",
-    //  "dotnetRunMessages": true,
-    //  "launchBrowser": true,
-    //  "launchUrl": "swagger",
-    //  "applicationUrl": "https://localhost:5000",
-    //  "environmentVariables": {
-    //    "ASPNETCORE_ENVIRONMENT": "Development"
-    //  }
-    //}
-    //"IIS Express": {
-    //  "commandName": "IISExpress",
-    //  "launchBrowser": true,
-    //  "launchUrl": "swagger",
-    //  "environmentVariables": {
-    //    "ASPNETCORE_ENVIRONMENT": "Development"
-    //  }
-    //}
   }
 }

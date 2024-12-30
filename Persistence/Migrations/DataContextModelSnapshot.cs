@@ -15,7 +15,7 @@ namespace Persistence.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.19");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
             modelBuilder.Entity("Domain.Activity", b =>
                 {
@@ -57,7 +57,7 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ActivityId")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("isHost")
+                    b.Property<bool>("IsHost")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("AppUserId", "ActivityId");

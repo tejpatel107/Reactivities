@@ -32,9 +32,9 @@ function ActivityListItem({ activity }: Props) {
                             <ItemHeader as={Link} to={`/activities/${activity.id}`}>
                                 {activity.title}
                             </ItemHeader>
-                            <Item.Description>
+                            <ItemDescription>
                                 Hosted by {activity.host?.displayName}
-                            </Item.Description>
+                            </ItemDescription>
                             {activity.isHost && (
                                 <Item.Description>
                                     <Label basic color="orange">
@@ -69,33 +69,6 @@ function ActivityListItem({ activity }: Props) {
                 <Button as={Link} to={`/activities/${activity.id}`} content="View"
                     color="teal" floated="right" />
             </Segment>
-
-
-            {/* <Item key={activity.id}>
-                <Item.Content >
-                    <Item.Header as='h4'>{activity.title} </Item.Header>
-                    <Item.Meta>{activity.date}</Item.Meta>
-                    <Item.Description>
-                        <div>{activity.description}</div>
-                        <div>{activity.city}, {activity.venue}</div>
-                    </Item.Description>
-                    <Item.Extra>
-                        <Button
-                            // onClick={() => activityStore.selectActivity(activity.id)} 
-                            as={Link} to={`/activities/${activity.id}`}
-                            floated="right"
-                            content="View"
-                            color="blue"
-                        />
-                        <Button
-                            name={activity.id}
-                            loading={loading && target === activity.id}
-                            onClick={(e) => handleDeleteActivity(e, activity.id)}
-                            floated="right" content="Delete" color="red" />
-                        <Label content={activity.category} />
-                    </Item.Extra>
-                </Item.Content>
-            </Item> */}
         </SegmentGroup>
     )
 }

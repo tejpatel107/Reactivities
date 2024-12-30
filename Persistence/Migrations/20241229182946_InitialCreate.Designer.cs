@@ -11,14 +11,14 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240816170342_AddCancelledProperty")]
-    partial class AddCancelledProperty
+    [Migration("20241229182946_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.19");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
 
             modelBuilder.Entity("Domain.Activity", b =>
                 {
@@ -60,7 +60,7 @@ namespace Persistence.Migrations
                     b.Property<Guid>("ActivityId")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("isHost")
+                    b.Property<bool>("IsHost")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("AppUserId", "ActivityId");
