@@ -16,7 +16,7 @@ export default class UserStore {
     }
 
     login = async (creds: userFormValues) => {
-        const user = await agent.Account.login(creds);
+        const user = await agent.Account.login(creds);        
         store.commonStore.setToken(user.token);
         runInAction(()=>this.user=user);
         router.navigate("/activities");

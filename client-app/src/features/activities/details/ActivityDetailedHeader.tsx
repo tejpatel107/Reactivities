@@ -23,9 +23,9 @@ interface Props {
 }
 
 function ActivityDetailedHeader({ activity }: Props) {
-    
-    const {activityStore : {updateAttendence, loading}} = useStore();
-    
+
+    const { activityStore: { updateAttendance, loading } } = useStore();
+
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{ padding: '0' }}>
@@ -56,10 +56,11 @@ function ActivityDetailedHeader({ activity }: Props) {
                         Manage Event
                     </Button>
                 ) : activity.isGoing ? (
-                    <Button loading={loading} onClick={updateAttendence}>Cancel attendance</Button>
+                    <Button loading={loading} onClick={updateAttendance} >
+                        Cancel attendance</Button>
                 ) : (
-                    <Button loading={loading} onClick={updateAttendence} color='teal'>Join Activity</Button>
-
+                    <Button loading={loading} onClick={updateAttendance} color='teal'>
+                        Join Activity</Button>
                 )
                 }
             </Segment>

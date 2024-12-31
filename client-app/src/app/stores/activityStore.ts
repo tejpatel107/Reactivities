@@ -5,7 +5,6 @@ import { v4 as uuid } from "uuid";
 import { format } from "date-fns";
 import { store } from "./store";
 import { Profile } from "../models/Profile";
-import { act } from "react-dom/test-utils";
 
 export default class ActivityStore {
 
@@ -81,14 +80,15 @@ export default class ActivityStore {
 
     private setActivity = (activity: Activity) => {
         const user = store.userStore.user;
+        
         if (user) {
             activity.isGoing = activity.attendees!.some(
-                a => a.username === user.username
+                a => a.username === user.userName
             );
-            activity.isHost = activity.hostUsername === user.username;
+            activity.isHost = activity.hostUsername === user.userName;
             activity.host = activity.attendees?.find(
                 a => a.username === activity.hostUsername
-            );            
+            );                     
         }
         activity.date = new Date(activity.date!);
         this.activityRegistery.set(activity.id, activity);
@@ -151,15 +151,17 @@ export default class ActivityStore {
         }
     }
 
-    updateAttendence = async () => {
+    updateAttendance = async () => {
         const user = store.userStore.user;
+        console.log({...user}, {...this.selectedActivity});
+        
         this.loading = true;
         try {
             await agent.Activities.attend(this.selectedActivity!.id);
             runInAction(() => {
                 if (this.selectedActivity?.isGoing) {
                     this.selectedActivity.attendees =
-                        this.selectedActivity.attendees?.filter(a => a.username !== user?.username);
+                        this.selectedActivity.attendees?.filter(a => a.username !== user!.userName);
                 } else {
                     const attendee = new Profile(user!);
                     this.selectedActivity?.attendees?.push(attendee);
