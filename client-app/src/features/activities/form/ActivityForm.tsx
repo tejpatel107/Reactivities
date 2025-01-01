@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Header, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
+import { Activity, ActivityFormValues } from "../../../app/models/activity";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -22,15 +22,7 @@ function ActivityForm() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [activity, setActivity] = useState<Activity>({
-        id: '',
-        title: '',
-        date: null,
-        description: '',
-        category: '',
-        city: '',
-        venue: ''
-    });
+    const [activity, setActivity] = useState<ActivityFormValues>(new ActivityFormValues());
 
     const validationSchema = Yup.object({
         title : Yup.string().required("The activity title is required!"),
@@ -42,10 +34,10 @@ function ActivityForm() {
     })
 
     useEffect(() => {
-        if (id) loadActivity(id).then((activity) => setActivity(activity!));
+        if (id) loadActivity(id).then((activity) => setActivity(new ActivityFormValues(activity)));
     }, [id, loadActivity]);
 
-    function handleFormSubmit (activity : Activity) {
+    function handleFormSubmit (activity : ActivityFormValues) {
         if(!activity.id){
             activity.id=uuid();
             createAnActivity(activity).then(()=>navigate(`/activities/${activity.id}`));
@@ -81,7 +73,7 @@ function ActivityForm() {
                         <MyTextInput placeholder="Venue" name="venue" />
                         <Button 
                             disabled={isSubmitting || !dirty || !isValid}
-                            loading={loading} floated="right" positive type='submit' content='Submit' />
+                            loading={isSubmitting} floated="right" positive type='submit' content='Submit' />
                         <Button floated="right" type='button' content='Cancel' as={Link} to="/activities" />
                     </Form>
                 )}

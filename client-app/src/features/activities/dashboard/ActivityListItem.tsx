@@ -25,9 +25,12 @@ function ActivityListItem({ activity }: Props) {
 
         <SegmentGroup>
             <Segment>
+                {activity.isCancelled && 
+                    <Label color="red" style = {{textAlign : 'center'}} attached="top" content = "cancelled" />
+                }
                 <ItemGroup>
                     <Item>
-                        <ItemImage size="tiny" circular src="/assets/user.png" />
+                        <ItemImage style={{marginBottom: 3}} size="tiny" circular src="/assets/user.png" />
                         <ItemContent>
                             <ItemHeader as={Link} to={`/activities/${activity.id}`}>
                                 {activity.title}
