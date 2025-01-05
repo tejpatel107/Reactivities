@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/store";
 import { User, userFormValues } from "../models/user";
+import { Profile } from "../models/Profile";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -84,9 +85,14 @@ const Account = {
     register: (user: userFormValues) => requests.post<User>('/account/register', user)
 }
 
+const Profiles = {
+    get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+}
+
 const agent = {
     Activities,
-    Account
+    Account,
+    Profiles
 }
 
 export default agent;
