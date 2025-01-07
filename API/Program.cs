@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -55,9 +56,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action}/{id?}");
 
-app.MapControllerRoute(
-    name: "New",
-    pattern: "new/{controller}/{action}/{id?}"
-);
+app.MapHub<ChatHub>("/chat");
 
 app.Run();

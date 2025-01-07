@@ -186,4 +186,8 @@ export default class ActivityStore {
             runInAction(()=>this.loading=false)
         }
     }
+
+    clearActivityStore = async () => {
+        this.selectedActivity = undefined;
+    }
 }
