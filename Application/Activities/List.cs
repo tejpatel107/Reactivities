@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Application.Interface;
 
 namespace Application.Activities
 {
@@ -14,17 +15,19 @@ namespace Application.Activities
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
+            private readonly IUserAcessor _userAcessor;
 
-            public Handler(DataContext context, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper, IUserAcessor userAcessor)
             {
                 _context = context;
                 _mapper = mapper;
+                _userAcessor = userAcessor;
             }
 
-            async Task<Result<List<ActivityDto>>> IRequestHandler<Query, Result<List<ActivityDto>>>.Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var activities = await _context.Activities
-                    .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider)
+                    .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider, new { currentUsername = _userAcessor.GetUsername()})
                     .ToListAsync(cancellationToken);
 
                 return Result<List<ActivityDto>>.Success(activities);

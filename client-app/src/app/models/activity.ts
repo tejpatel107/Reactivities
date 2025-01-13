@@ -13,7 +13,7 @@ export interface IActivity {
     isGoing: boolean
     isHost: boolean
     host?: Profile
-    attendees?: Profile[]
+    attendees: Profile[]
 }
 
 export class Activity implements Activity {
@@ -29,7 +29,7 @@ export class Activity implements Activity {
     isGoing: boolean = false
     isHost: boolean = false
     host?: Profile
-    attendees?: Profile[]
+    attendees: Profile[] = []
 
     /**
      *

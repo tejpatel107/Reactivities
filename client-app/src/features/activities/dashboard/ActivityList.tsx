@@ -14,7 +14,7 @@ function ActivityList() {
             {groupedActivities.map(([group, activities]) => (
                 // return (
                 <Fragment key={group}>
-                    <Header sub color='teal'>
+                    <Header sub color='black'>
                         {group}
                     </Header>
                     {activities.map((activity) => (

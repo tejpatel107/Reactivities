@@ -14,7 +14,7 @@ function NavBar() {
                     <img src="/assets/logo.png" alt="logo" style={{ marginRight: 10 }} />
                     Reactivities
                 </Menu.Item>
-                <Menu.Item as={NavLink} to="/activities" name="Activities" />
+                <Menu.Item as={NavLink} to="/activities" name="Activities"  />
                 <Menu.Item as={NavLink} to="/errors" name="Errors" />
                 <Menu.Item >
                     <Button positive as={NavLink} to="/createActivity" content='Create Activity' />

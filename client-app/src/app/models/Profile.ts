@@ -5,7 +5,10 @@ export interface IProfile {
     displayName: string,
     image?: string,
     bio?: string,
-    photos? : IPhoto[]
+    photos? : IPhoto[],
+    followersCount?: number,
+    followingCount?: number,
+    following: boolean
 }
 
 export class Profile implements IProfile {
@@ -14,7 +17,10 @@ export class Profile implements IProfile {
     displayName: string
     image?: string
     bio?: string
-    photos?: IPhoto[] | undefined;
+    photos?: IPhoto[] | undefined
+    followersCount?: number = 0
+    followingCount?: number = 0
+    following: boolean = false
     
     constructor(user: User) {
         this.username = user.userName;
