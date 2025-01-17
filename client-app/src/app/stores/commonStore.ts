@@ -3,7 +3,7 @@ import serverError from "../models/serverError";
 
 export default class CommonStore {
     error: serverError | null = null;
-    token: string | null | undefined = null;
+    token: string | null | undefined = localStorage.getItem('jwt');
     appLoaded = false;
 
     constructor() {
