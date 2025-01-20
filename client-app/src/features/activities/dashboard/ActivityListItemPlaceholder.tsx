@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react/jsx-runtime';
 import { Segment, Button, Placeholder } from 'semantic-ui-react';
 
 function ActivityListItemPlaceholder() {

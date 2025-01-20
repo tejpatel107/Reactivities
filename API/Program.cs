@@ -34,6 +34,9 @@ app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 using var scope = app.Services.CreateScope();
@@ -49,7 +52,7 @@ try
 } catch (Exception ex)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
-    logger.LogError(ex, "An error occured during migration");
+    logger.LogError(ex, "An error occurred during migration");
 }
 
 app.MapControllerRoute(
@@ -57,5 +60,6 @@ app.MapControllerRoute(
     pattern: "{controller}/{action}/{id?}");
 
 app.MapHub<ChatHub>("/chat");
+app.MapFallbackToController("Index", "Fallback");
 
 app.Run();

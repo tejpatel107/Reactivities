@@ -8,7 +8,7 @@ namespace Persistence
         public DataContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseSqlite(optionsBuilder.Options.ToString());
+            optionsBuilder.UseSqlServer(optionsBuilder.Options.ToString());
 
             return new DataContext(optionsBuilder.Options);
 

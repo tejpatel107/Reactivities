@@ -2,13 +2,6 @@ import { useField } from "formik";
 import { Label } from "semantic-ui-react";
 import Form from "semantic-ui-react/dist/commonjs/collections/Form";
 import ReactDatePicker, { ReactDatePickerProps } from "react-datepicker";
-import { values } from "mobx";
-
-interface Props {
-    placeholder: string,
-    name: string,
-    label?: string,
-}
 
 export default function MyDateInput(props: Partial<ReactDatePickerProps>) {
 

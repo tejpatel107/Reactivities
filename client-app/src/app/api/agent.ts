@@ -6,6 +6,8 @@ import { store } from "../stores/store";
 import { User, userFormValues } from "../models/user";
 import { IPhoto, Profile } from "../models/Profile";
 import { PaginatedResult } from "../models/pagination";
+import serverError from "../models/serverError";
+import ErrorResponse from "../models/errorResponse";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
@@ -13,7 +15,8 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 
 axios.interceptors.request.use(config => {
     const token = store.commonStore.token;
@@ -22,7 +25,9 @@ axios.interceptors.request.use(config => {
 });
 
 axios.interceptors.response.use(async response => {
-    await sleep(1000);
+
+    if (import.meta.env.DEV) await sleep(1000);
+
     const pagination = response.headers['pagination'];
 
     if (pagination) {
@@ -31,39 +36,42 @@ axios.interceptors.response.use(async response => {
     }
 
     return response;
-}, (error : AxiosError) => {
-    const {data, status, config} = error.response!;
-
-    switch(status){
-        case 400: 
-            if(config.method === 'get' && data.errors.hasOwnProperty('id'))
-                router.navigate('/not-found');
-            if(data.errors){
-                const modalStateErrors = [];
-                for (const key in data.errors) {
-                    if(data.errors[key])
-                        modalStateErrors.push(data.errors[key]);
-                }
-                throw modalStateErrors.flat();
-            } else {
-                toast.error(data);
+}, (error: AxiosError) => {
+    const { data, status, config } = error.response!;
+    const typedData = data as ErrorResponse;
+    switch (status) {
+        case 400:
+          if (config.method === 'get' && typedData.errors?.hasOwnProperty('id')) {
+            router.navigate('/not-found');
+          }
+          if (typedData.errors) {
+            const modalStateErrors: string[] = [];
+            for (const key in typedData.errors) {
+              if (typedData.errors[key]) modalStateErrors.push(...typedData.errors[key]);
             }
-            break;
+            throw modalStateErrors;
+          } else {
+            toast.error(data as string);
+          }
+          break;
+    
         case 401:
-            toast.error("unauthorized");
-            break;
+          toast.error('unauthorized');
+          break;
+    
         case 403:
-            toast.error("forbidden");
-            break;
+          toast.error('forbidden');
+          break;
+    
         case 404:
-            // toast.error("Not Found");
-            router.navigate("/notfound");
-            break;
+          router.navigate('/notfound');
+          break;
+    
         case 500:
-            store.commonStore.setServerError(data);
-            router.navigate('/server-error');
-            toast.error("Internal Server Error");
-            break;
+          store.commonStore.setServerError(data as serverError); // Ensure `setServerError` accepts the right type.
+          router.navigate('/server-error');
+          toast.error('Internal Server Error');
+          break;    
     }
 
     return Promise.reject(error);
@@ -73,13 +81,13 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <T>(url: string, body : object) => axios.post<T>(url, body).then(responseBody),
-    put: <T>(url: string, body : object) => axios.put<T>(url, body).then(responseBody),
+    post: <T>(url: string, body: object) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: object) => axios.put<T>(url, body).then(responseBody),
     del: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 }
 
 const Activities = {
-    list: (axiosParams: URLSearchParams) => axios.get<PaginatedResult<Activity[]>>('/activities', { params:axiosParams }).then(responseBody),
+    list: (axiosParams: URLSearchParams) => axios.get<PaginatedResult<Activity[]>>('/activities', { params: axiosParams }).then(responseBody),
     details: (id: string) => requests.get<Activity>(`/activities/${id}`),
     create: (activity: ActivityFormValues) => requests.post<void>('/activities', activity),
     update: (activity: ActivityFormValues) => requests.put<void>(`/activities/${activity.id}`, activity),
@@ -88,25 +96,25 @@ const Activities = {
 }
 
 const Account = {
-    current: () => requests.get<User>('/accout'),
+    current: () => requests.get<User>('/account'),
     login: (user: userFormValues) => requests.post<User>('/account/login', user),
     register: (user: userFormValues) => requests.post<User>('/account/register', user)
 }
 
 const Profiles = {
     get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
-    uploadPhoto : (file : Blob) => {
+    uploadPhoto: (file: Blob) => {
         const formData = new FormData();
         formData.append('File', file);
-        return axios.post<IPhoto>('photos',formData, {
-            headers: { 'Content-Type': 'multipart/form-data'}
+        return axios.post<IPhoto>('photos', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
         })
     },
-    setMainPhoto: (id: string) => requests.put(`/photos/${id}/setMain`,{}),
+    setMainPhoto: (id: string) => requests.put(`/photos/${id}/setMain`, {}),
     delPhoto: (id: string) => requests.del(`/photos/${id}`),
-    updateProfile: (profile: Partial<Profile>) => requests.put(`/profiles`,profile),
-    updateFollowing: (username: string) => requests.post(`/follow/${username}`,{}),
-    listFollowings: (username: string, predicate: string) => 
+    updateProfile: (profile: Partial<Profile>) => requests.put(`/profiles`, profile),
+    updateFollowing: (username: string) => requests.post(`/follow/${username}`, {}),
+    listFollowings: (username: string, predicate: string) =>
         requests.get<Profile[]>(`/follow/${username}?predicate=${predicate}`)
 }
 
