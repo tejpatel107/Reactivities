@@ -29,7 +29,8 @@
     "react-toastify": "^10.0.5",
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^3.0.0-beta.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "react-infinite-scroller": "^1.2.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
