@@ -53,7 +53,6 @@ export default class ActivityStore {
         try {
             const result = await agent.Activities.list(this.axiosParams);
             runInAction(() => {
-                console.log(result.data);
                 result.data.forEach((activity: Activity) => {
                     this.setActivity(activity);
                 });
@@ -200,17 +199,14 @@ export default class ActivityStore {
     }
 
     deleteAnActivity = async (id: string) => {
-        this.loading = true;
         try {
-            await agent.Activities.delete(id);
             runInAction(() => {
                 this.activityRegistery.delete(id);
                 this.selectedActivity = undefined;
-                this.loading = false;
-            })
+            });
+            await agent.Activities.delete(id);
         } catch (error) {
             console.log(error);
-            this.loading = false;
         }
     }
 
@@ -246,7 +242,7 @@ export default class ActivityStore {
             runInAction(() => {
                 this.selectedActivity!.isCancelled = !this.selectedActivity?.isCancelled;
                 this.activityRegistery.set(this.selectedActivity!.id, this.selectedActivity!);
-            })
+            });
         } catch (error) {
             console.log(error);
         } finally {

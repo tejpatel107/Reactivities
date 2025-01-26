@@ -20,7 +20,7 @@ function ActivityDahsboard() {
         loadActivities().then(() => setLoadingNext(false));
     }
 
-    useEffect(() => {
+    useEffect(() => {        
         if (activityRegistery.size <= 1) loadActivities();
     }, [loadActivities, activityRegistery.size]);
 

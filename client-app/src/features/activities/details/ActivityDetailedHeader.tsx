@@ -24,13 +24,13 @@ interface Props {
 
 function ActivityDetailedHeader({ activity }: Props) {
 
-    const { activityStore: { updateAttendance, loading, cancelActivity } } = useStore();
+    const { activityStore: { updateAttendance, loading, cancelActivity, deleteAnActivity} } = useStore();
 
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{ padding: '0' }}>
                 {activity.isCancelled &&
-                    <Label style={{ position: 'absolut', zIndex: 1000, left: -14, top: 20 }} ribbon color="red" content="Canceled" />
+                    <Label style={{ position: 'absolute', zIndex: 1000, left: -14, top: 20 }} ribbon color="red" content="Canceled" />
                 }
                 <Image src={`/assets/categoryImages/${activity.category}.jpg`} fluid style={activityImageStyle} />
                 <Segment style={activityImageTextStyle} basic>
@@ -56,20 +56,29 @@ function ActivityDetailedHeader({ activity }: Props) {
             <Segment clearing attached='bottom'>
                 {activity.isHost ? (
                     <>
-                        <Button 
-                            color={activity.isCancelled ? 'green' : 'red'}
-                            content={activity.isCancelled ? 'Re-activate Activity' :'Cancel Activity'}
-                            floated='left'
-                            basic
-                            onClick={cancelActivity}
-                            loading={loading}
-                        />
-                        <Button 
-                            color='orange' 
-                            floated='right' 
+                        <Button.Group>
+                            <Button
+                                color={activity.isCancelled ? 'green' : 'red'}
+                                content={activity.isCancelled ? 'Re-activate Activity' : 'Cancel Activity'}
+                                floated='left'
+                                basic
+                                onClick={cancelActivity}
+                                loading={loading}
+                            />
+                            <Button
+                                icon='trash'
+                                color='red'
+                                onClick={()=>deleteAnActivity(activity.id)}
+                                as={Link}
+                                to={'/activities'}
+                            />
+                        </Button.Group>
+                        <Button
+                            color='orange'
+                            floated='right'
                             as={Link} to={`/ManageActivity/${activity.id}`}
                             disabled={activity.isCancelled}
-                            >
+                        >
                             Manage Event
                         </Button>
                     </>
@@ -78,17 +87,17 @@ function ActivityDetailedHeader({ activity }: Props) {
                     <Button loading={loading} onClick={updateAttendance} >
                         Cancel attendance</Button>
                 ) : (
-                    <Button 
-                        loading={loading} 
-                        onClick={updateAttendance} 
+                    <Button
+                        loading={loading}
+                        onClick={updateAttendance}
                         color='teal'
                         disabled={activity.isCancelled}
                     >
                         Join Activity</Button>
                 )
                 }
-            </Segment>
-        </Segment.Group>
+            </Segment >
+        </Segment.Group >
     )
 }
 
