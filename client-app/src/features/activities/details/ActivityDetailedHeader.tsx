@@ -4,6 +4,7 @@ import { Activity } from "../../../app/models/activity";
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { useStore } from '../../../app/stores/store';
+import ActivityDeleteConfirmation from '../form/ActivityDeleteConfirmation';
 
 const activityImageStyle = {
     filter: 'brightness(30%)'
@@ -24,8 +25,9 @@ interface Props {
 
 function ActivityDetailedHeader({ activity }: Props) {
 
-    const { activityStore: { updateAttendance, loading, cancelActivity, deleteAnActivity} } = useStore();
-
+    const { activityStore, modalStore } = useStore();
+    const { updateAttendance, loading, cancelActivity} = activityStore;
+    const { openModal } = modalStore;
     return (
         <Segment.Group>
             <Segment basic attached='top' style={{ padding: '0' }}>
@@ -68,9 +70,8 @@ function ActivityDetailedHeader({ activity }: Props) {
                             <Button
                                 icon='trash'
                                 color='red'
-                                onClick={()=>deleteAnActivity(activity.id)}
-                                as={Link}
-                                to={'/activities'}
+                                onClick={() => 
+                                    openModal(<ActivityDeleteConfirmation activity={activity}/>)}
                             />
                         </Button.Group>
                         <Button

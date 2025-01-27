@@ -12,9 +12,9 @@ function HomePage() {
     return (
         <Segment inverted textAlign="center" vertical className="masthead">
             <Container text>
-                <Header as='h1' >
+                <Header as='h1' style={{color:"#FFFFFF"}}>
                     <Image size='massive' src='/assets/logo.png' alt='logo' style={{ marginBottom: 12 }} />
-                    Reactivities!!!
+                    Reactivities
                 </Header>
                 {userStore.isLoggedIn ? (
                     <>
@@ -36,11 +36,6 @@ function HomePage() {
 
             </Container>
         </Segment>
-
-        // <Container style={{marginTop: '7em'}}>
-        //     <h1>Home Page</h1>
-        //     <h3>Go to <Link to="/activities">Activities</Link></h3>
-        // </Container>
     )
 }
 

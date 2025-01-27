@@ -20,7 +20,7 @@ function NavBar() {
                 </Menu.Item>
                 <Menu.Item position="right">
                     <Image src={user?.image || '/assets/user.png'} avatar spaced='right' />
-                    <Dropdown pointing="top left" text={user?.displayName}>
+                    <Dropdown pointing="top right" text={user?.displayName}>
                         <Dropdown.Menu>
                             <Dropdown.Item
                                 as={Link}

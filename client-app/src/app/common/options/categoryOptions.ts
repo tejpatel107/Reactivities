@@ -1,5 +1,5 @@
 export const categoryOptions = [
-    {text: "Drinks", value: "drink"},
+    {text: "Drinks", value: "drinks"},
     {text: "Music", value: "music"},
     {text: "Travel", value: "travel"},
     {text: "Food", value: "food"},
