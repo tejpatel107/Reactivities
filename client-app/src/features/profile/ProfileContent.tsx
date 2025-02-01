@@ -4,6 +4,8 @@ import ProfilePhotos from "./ProfilePhotos";
 import { Profile } from "../../app/models/Profile";
 import ProfileFollowings from "./ProfileFollowings";
 import { useStore } from "../../app/stores/store";
+import ProfileActivitiesCard from "./ProfileActivitiesCard";
+import ProfileAbout from "./ProfileAbout";
 
 interface Props {
     profile: Profile;
@@ -15,9 +17,9 @@ function ProfileContent({ profile } : Props) {
     const { setActiveTab } = profileStore;
     
     const panes = [
-        { menuItem: 'About', render: () => <Tab.Pane>About Content</Tab.Pane> },
+        { menuItem: 'About', render: () => <ProfileAbout profile={profile} /> },
         { menuItem: 'Photos', render: () => <ProfilePhotos profile={profile}/> },
-        { menuItem: 'Events', render: () => <Tab.Pane>Events Content</Tab.Pane> },
+        { menuItem: 'Events', render: () => <ProfileActivitiesCard /> },
         { menuItem: 'Followers', render: () => <ProfileFollowings /> },
         { menuItem: 'Following', render: () => <ProfileFollowings /> }
     ];

@@ -9,7 +9,7 @@ interface Props {
     profile: Profile;
 }
 
-function ProfilePhotos({ profile, }: Props) {
+function ProfilePhotos({ profile }: Props) {
 
     const { profileStore: { isCurrentUser, uploadPhoto, uploading,
         loading, setMainPhoto, deletePhoto } } = useStore();
