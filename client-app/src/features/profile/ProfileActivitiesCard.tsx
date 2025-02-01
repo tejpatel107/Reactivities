@@ -15,19 +15,23 @@ const panes = [
 function ProfileActivitiesCard() {
     
     const { profileStore } = useStore();
+
     const {
         loadUserActivities,
         profile,
         loadingActivities,
         userActivities
     } = profileStore;
+
     useEffect(() => {
         loadUserActivities(profile!.username);
     }, [loadUserActivities, profile]);
+
     const handleTabChange = (data: TabProps) => {
         loadUserActivities(profile!.username, panes[data.activeIndex as
             number].pane.key);
     };
+    
     return (
         <Tab.Pane loading={loadingActivities}>
             <Grid>

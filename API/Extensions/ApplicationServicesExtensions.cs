@@ -12,14 +12,18 @@ namespace API.Extensions
 {
     public static class ApplicationServicesExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config) 
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
         {
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddDbContext<DataContext>(opt =>
             {
-                opt.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+                opt.UseSqlServer(config.GetConnectionString("DefaultConnection"), sqlServerOptions =>
+                    sqlServerOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5, // Number of retry attempts
+                        maxRetryDelay: TimeSpan.FromSeconds(30), // Delay between retries
+                        errorNumbersToAdd: null));
             });
             services.AddCors(opt =>
             {
@@ -32,8 +36,8 @@ namespace API.Extensions
                         .WithOrigins("http://localhost:3000");
                 });
             });
-            services.AddMediatR(cfg => 
-                cfg.RegisterServicesFromAssembly(typeof(List).Assembly));           
+            services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssembly(typeof(List).Assembly));
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<Create>();
