@@ -13,12 +13,14 @@ function ProfileAbout({ profile }: Props) {
     const { profileStore: { isCurrentUser, editBio } } = useStore();
 
     const [openBioTextBox, setOpenBioTextBox] = useState(false);
-    const [bioText, setBioText] = useState(profile.bio);
+    const [savedBioText, setSavedBioText] = useState(profile.bio);
+    const [bioText, setBioText] = useState(savedBioText);
     const [originalBioText,setOriginalBioText] = useState(profile.bio);
 
     function handleOnClickSaveButton() {
         console.log(bioText);
         setOriginalBioText(bioText);
+        setSavedBioText(bioText);
         editBio(profile.username, bioText!);
         setOpenBioTextBox(false);
     }

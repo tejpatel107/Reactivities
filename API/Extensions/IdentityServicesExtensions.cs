@@ -24,6 +24,8 @@ namespace API.Extensions {
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"])),
                         ValidateIssuer = false,
                         ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.FromMinutes(15)
                     };
 
                     opt.Events = new JwtBearerEvents{
@@ -37,6 +39,8 @@ namespace API.Extensions {
                             return Task.CompletedTask;
                         }
                     };
+
+                    // opt
                 }
             );
 

@@ -24,7 +24,10 @@ namespace API.Extensions
                         maxRetryCount: 5, // Number of retry attempts
                         maxRetryDelay: TimeSpan.FromSeconds(30), // Delay between retries
                         errorNumbersToAdd: null));
+
+                // opt.U/seSqlite("DataSource=:memory:");
             });
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
