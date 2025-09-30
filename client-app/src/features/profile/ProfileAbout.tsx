@@ -80,7 +80,7 @@ function ProfileAbout({ profile }: Props) {
                                         paddingLeft: '10px',
                                         whiteSpace: 'pre-line'
                                     }}
-                                    content={bioText}
+                                    content={savedBioText}
                                 />
                             </Item>
                         </Grid.Column>
